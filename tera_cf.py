@@ -10,7 +10,7 @@ Secrets:
     GIST_ID
 
 Output:
-    vless.txt
+    tera.txt
 """
 
 import base64
@@ -50,8 +50,8 @@ ENC_KEY_HEX = (
     "70b6703df2401202d79e865321d8517ba756808713f17d675ed22ed61b139dc7"
 )
 
-OUTPUT_FILE = "vless.txt"
-GIST_FILENAME = "vless.txt"
+OUTPUT_FILE = "tera.txt"
+GIST_FILENAME = "tera.txt"
 
 GITHUB_API = "https://api.github.com"
 
