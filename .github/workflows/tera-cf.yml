@@ -1,0 +1,47 @@
+name: Tera CF VLESS Update
+
+on:
+  schedule:
+    - cron: "0 8,20 * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tera-cf-vless-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check requests
+
+      - name: Generate VLESS and update Gist
+        env:
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.GIST_ID }}
+        run: python tera_cf.py
+
+      - name: Save generated files
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tera-cf-output
+          path: |
+            vless.txt
+            gist_url.txt
+          retention-days: 7
